@@ -118,6 +118,8 @@ let competidores = [
     { nombre: "John Jairo Cordoba Pereira", afiliados: 0 },
     { nombre: "Ruben Gilberto Cantero Picalua", afiliados: 0 },
     { nombre: "Octavio Miguel Monroy Benitez", afiliados: 0 },
+    { nombre: "Dailes Hernandez Montes", afiliados: 0 },
+    { nombre: "Oneida Rosa Fernandez Corena", afiliados: 0 },
     { nombre: "Sandra Marcela Causado Meza", afiliados: 0 }
     
 ];
