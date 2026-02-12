@@ -120,8 +120,9 @@ let competidores = [
     { nombre: "Octavio Miguel Monroy Benitez", afiliados: 0 },
     { nombre: "Dailes Hernandez Montes", afiliados: 0 },
     { nombre: "Oneida Rosa Fernandez Corena", afiliados: 0 },
+    { nombre: "Stefany Montes Aleman", afiliados: 0 },
     { nombre: "Sandra Marcela Causado Meza", afiliados: 0 }
-    
+     
 ];
 
 // ============================================
