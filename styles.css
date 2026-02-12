@@ -1198,6 +1198,42 @@ main {
         padding: 0 20px;
     }
     
+    /* FIX: Evitar superposición de nombre con número de afiliados en ranking */
+    .onepiece-rank-item {
+        padding: 15px 15px;
+        gap: 15px;
+    }
+    
+    .onepiece-rank-number {
+        min-width: 45px;
+        font-size: 1.5rem;
+    }
+    
+    .onepiece-avatar {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+    
+    .onepiece-name {
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+        line-height: 1.2;
+        word-break: break-word;
+    }
+    
+    .onepiece-afiliados {
+        min-width: 70px;
+    }
+    
+    .onepiece-number {
+        font-size: 1.4rem;
+    }
+    
+    .onepiece-label {
+        font-size: 0.6rem;
+    }
+    
     .podium-container {
         flex-direction: row;
         align-items: stretch;
