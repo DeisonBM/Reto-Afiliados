@@ -353,6 +353,34 @@ const FRASES_EPICAS = {
     frase: 'Organiza y preserva cada documento con maestría estratégica, construyendo el corazón informativo institucional',
     poder: 'ORDEN DOCUMENTAL',
     especialidad: 'Documentheos'
+},
+    'Ruben Gilberto Cantero Picalua': {
+    titulo: 'EL TRANSFORMADOR DIGITAL',
+    frase: 'Convierte el papel en bits con maestría tecnológica, forjando el futuro digital con cada escaneo preciso',
+    poder: 'REVOLUCIÓN DIGITAL',
+    especialidad: 'Scannerius'
+},
+
+'Octavio Miguel Monroy Benitez': {
+    titulo: 'EL ÁRBITRO DE LA JUSTICIA',
+    frase: 'Con imparcialidad absoluta evalúa cada caso, emitiendo juicios que sostienen el orden y la verdad institucional',
+    poder: 'JUICIO SUPREMO',
+    especialidad: 'Judicathor'
+},
+
+'Dailes Hernandez Montes': {
+    titulo: 'LA EMBAJADORA DEL CRECIMIENTO',
+    frase: 'Impulsa conexiones estratégicas con carisma y determinación, expandiendo horizontes y construyendo puentes institucionales',
+    poder: 'EXPANSIÓN ESTRATÉGICA',
+    especialidad: 'Promotryx'
+},
+
+'Oneida Rosa Fernandez Corena': {
+    titulo: 'LA CONQUISTADORA DE OPORTUNIDADES',
+    frase: 'Con visión comercial inquebrantable abre caminos hacia el éxito, transformando cada contacto en alianza institucional',
+    poder: 'INFLUENCIA COMERCIAL',
+    especialidad: 'Promoveon'
 }
 
 };
+
