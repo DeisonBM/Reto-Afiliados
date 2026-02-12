@@ -380,7 +380,15 @@ const FRASES_EPICAS = {
     frase: 'Con visión comercial inquebrantable abre caminos hacia el éxito, transformando cada contacto en alianza institucional',
     poder: 'INFLUENCIA COMERCIAL',
     especialidad: 'Promoveon'
+},
+    
+'Stefany Montes Aleman': {
+    titulo: 'LA ESTRATEGA DE LA LEY REGISTRAL',
+    frase: 'Defiende cada acto jurídico con precisión estratégica, garantizando legalidad absoluta en cada inscripción',
+    poder: 'DOMINIO LEGAL',
+    especialidad: 'Registhera'
 }
 
 };
+
 
