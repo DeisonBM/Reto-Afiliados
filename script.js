@@ -116,6 +116,8 @@ let competidores = [
     { nombre: "Yajaira Cecilia Acosta Diaz", afiliados: 0 },
     { nombre: "Zulis Margoth Hernandez Mercado", afiliados: 0 },
     { nombre: "John Jairo Cordoba Pereira", afiliados: 0 },
+    { nombre: "Ruben Gilberto Cantero Picalua", afiliados: 0 },
+    { nombre: "Octavio Miguel Monroy Benitez", afiliados: 0 },
     { nombre: "Sandra Marcela Causado Meza", afiliados: 0 }
     
 ];
