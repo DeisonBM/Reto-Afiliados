@@ -522,122 +522,146 @@ function initTabs() {
 let youtubePlayer;
 
 function onYouTubeIframeAPIReady() {
-    console.log('YouTube API lista');
+    console.log('YouTube API lista (pero no se usará)');
     youtubeReady = true;
 }
 
 function initMusic() {
-    console.log('Iniciando sistema de música...');
+    console.log('🎵 Iniciando sistema de música (SOLO AUDIO LOCAL)...');
     
-    // Intentar con YouTube primero
-    setTimeout(() => {
-        if (bgMusicYouTube) {
-            console.log('Usando YouTube como fuente principal');
-            usingYouTube = true;
-            musicMuted = false;
-            
-            // Intentar unmute via postMessage
-            try {
-                bgMusicYouTube.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                bgMusicYouTube.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                console.log('YouTube reproduciendo automáticamente');
-                
-                // Actualizar el botón de música
-                if (musicToggle) {
-                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> MÚSICA';
-                    musicToggle.classList.remove('pulse-animation');
-                }
-            } catch (e) {
-                console.log('Error con YouTube, cambiando a audio local');
-                switchToLocalAudio();
-            }
-        } else {
-            switchToLocalAudio();
-        }
-    }, 3000); // Dar más tiempo a que cargue el iframe
-    
-    // Listener para detectar si YouTube falla
-    window.addEventListener('message', function(e) {
-        if (e.data && typeof e.data === 'string') {
-            try {
-                const data = JSON.parse(e.data);
-                if (data.event === 'onError') {
-                    console.log('YouTube falló, usando audio local');
-                    switchToLocalAudio();
-                }
-            } catch (err) {
-
-            }
-        }
-    });
+    // SOLO USAR AUDIO LOCAL - sin YouTube
+    usingYouTube = false;
+    switchToLocalAudio();
 }
 
 function switchToLocalAudio() {
-    console.log('Cambiando a audio local...');
+    console.log('🎵 Activando audio local...');
     usingYouTube = false;
     
     if (bgMusicLocal) {
+        // El audio empieza muted por el atributo HTML para permitir autoplay
         bgMusicLocal.volume = 0.3;
-        const playPromise = bgMusicLocal.play();
+        bgMusicLocal.loop = true;
         
-        if (playPromise !== undefined) {
-            playPromise
-                .then(() => {
-                    console.log('Audio local reproduciendo');
-                    musicMuted = false;
-                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> MÚSICA';
-                })
-                .catch(error => {
-                    console.log('Autoplay bloqueado por el navegador');
-                    musicMuted = true;
-                    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i> MÚSICA';
-                    musicToggle.classList.add('pulse-animation');
-                });
-        }
+        // Función para desmutear y asegurar reproducción
+        const unmuteAndPlay = () => {
+            bgMusicLocal.muted = false;
+            bgMusicLocal.volume = 0.3;
+            
+            const playPromise = bgMusicLocal.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log('✅ ¡Audio local reproduciendo automáticamente! 🎵');
+                        musicMuted = false;
+                        if (musicToggle) {
+                            musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> MÚSICA';
+                            musicToggle.classList.remove('pulse-animation');
+                        }
+                    })
+                    .catch(error => {
+                        console.log('⚠️ Autoplay bloqueado por el navegador');
+                        console.log('💡 La música se activará con la primera interacción del usuario');
+                        musicMuted = true;
+                        if (musicToggle) {
+                            musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i> TOCA PARA MÚSICA';
+                            musicToggle.classList.add('pulse-animation');
+                        }
+                        
+                        // ACTIVAR MODO SUPER AGRESIVO
+                        activateAggressiveAutoplay();
+                    });
+            }
+        };
+        
+        // Intentar desmutear inmediatamente
+        setTimeout(unmuteAndPlay, 50);
     }
 }
 
-function toggleMusic() {
-    if (usingYouTube && bgMusicYouTube) {
-        // Control de YouTube
-        if (musicMuted) {
-            try {
-                bgMusicYouTube.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                bgMusicYouTube.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> MÚSICA';
-                musicToggle.classList.remove('pulse-animation');
-                musicMuted = false;
-            } catch (e) {
-                console.log('Error con YouTube, cambiando a local');
-                switchToLocalAudio();
-                toggleMusic(); // Reintentar con audio local
-            }
-        } else {
-            try {
-                bgMusicYouTube.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i> MÚSICA';
-                musicMuted = true;
-            } catch (e) {
-                switchToLocalAudio();
-                toggleMusic();
-            }
+// MODO AGRESIVO: Activar música con CUALQUIER interacción
+function activateAggressiveAutoplay() {
+    console.log('🔥 MODO AGRESIVO ACTIVADO - música se reproducirá con cualquier interacción');
+    
+    let musicStarted = false;
+    
+    const startMusic = () => {
+        if (musicStarted) return;
+        
+        console.log('🎯 Usuario interactuó - intentando reproducir música...');
+        
+        if (bgMusicLocal) {
+            bgMusicLocal.muted = false;
+            bgMusicLocal.volume = 0.3;
+            bgMusicLocal.play()
+                .then(() => {
+                    musicStarted = true;
+                    musicMuted = false;
+                    if (musicToggle) {
+                        musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> MÚSICA';
+                        musicToggle.classList.remove('pulse-animation');
+                    }
+                    console.log('✅ ¡MÚSICA ACTIVADA CON ÉXITO! 🎵🔥');
+                    
+                    // Remover todos los listeners después de activar
+                    removeAllListeners();
+                })
+                .catch(err => {
+                    console.log('⚠️ Intento fallido:', err.message);
+                });
         }
-    } else if (bgMusicLocal) {
-        // Control de audio local
+    };
+    
+    // Lista de TODOS los eventos posibles
+    const events = [
+        'click',
+        'touchstart',
+        'touchend',
+        'mousedown',
+        'keydown'
+    ];
+    
+    // Función para remover todos los listeners
+    const removeAllListeners = () => {
+        events.forEach(event => {
+            document.removeEventListener(event, startMusic, true);
+        });
+    };
+    
+    // Agregar listeners a TODOS los eventos en fase de captura (antes que otros handlers)
+    events.forEach(event => {
+        document.addEventListener(event, startMusic, { capture: true, passive: false });
+    });
+    
+    console.log('👂 Escuchando:', events.length, 'tipos de eventos (click, touch, mouse, tecla)');
+}
+
+function toggleMusic() {
+    // SOLO usar audio local
+    if (bgMusicLocal) {
         if (musicMuted || bgMusicLocal.paused) {
+            // Activar música
+            bgMusicLocal.muted = false;
+            bgMusicLocal.volume = 0.3;
             bgMusicLocal.play()
                 .then(() => {
                     musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> MÚSICA';
                     musicToggle.classList.remove('pulse-animation');
                     musicMuted = false;
+                    console.log('🎵 Música activada manualmente');
                 })
                 .catch(error => {
-                    console.error('Error al reproducir audio local:', error);
+                    console.error('⚠️ Error al reproducir audio:', error);
+                    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i> TOCA AQUÍ';
+                    musicToggle.classList.add('pulse-animation');
                 });
         } else {
+            // Pausar música
             bgMusicLocal.pause();
             musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i> MÚSICA';
             musicMuted = true;
+            console.log('🔇 Música pausada');
         }
     }
 }
