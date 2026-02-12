@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=(), compute-pressure=()">
+    <title>Reto Afiliados</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Righteous&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Música de Fondo - YouTube con respaldo local -->
+    <iframe id="bgMusicYouTube" 
+            width="0" 
+            height="0" 
+            src="https://www.youtube.com/embed/LK7ariPYZJ4?autoplay=1&loop=1&playlist=LK7ariPYZJ4&controls=0&enablejsapi=1" 
+            frameborder="0" 
+            allow="autoplay; encrypted-media; accelerometer; gyroscope; picture-in-picture" 
+            allowfullscreen
+            style="display:none;">
+    </iframe>
+    
+    <!-- Audio Local de Respaldo -->
+    <audio id="bgMusicLocal" loop preload="auto" style="display:none;">
+        <source src="fotos/background-music.mp3" type="audio/mpeg">
+        <source src="fotos/background-music.ogg" type="audio/ogg">
+    </audio>
+
+    <!-- Animación de Entrada -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-content">
+            <div class="kanji-container">
+                <div class="kanji vertical">
+                    <span class="kanji-char">戦</span>
+                    <span class="kanji-char">闘</span>
+                    <span class="kanji-char">開</span>
+                    <span class="kanji-char">始</span>
+                </div>
+                <div class="kanji-translation">LA BATALLA COMIENZA</div>
+            </div>
+            <div class="intro-message">PREPÁRATE PARA LA COMPETENCIA</div>
+            <div class="loading-bar">
+                <div class="loading-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partículas flotantes -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- PANTALLA DE INICIO (Landing Page) -->
+    <div class="landing-page" id="landingPage">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="trophy-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h1 class="main-title">
+                    <i class="fas fa-fire"></i>
+                    <span class="title-line">RETO DE</span>
+                    <span class="title-line highlight">CAMPEONES</span>
+                </h1>
+                <p class="subtitle">Competencia de Afiliados 2026</p>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCompetidores">0</span>
+                        <span class="stat-label"><i class="fas fa-users"></i> Competidores</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalAfiliados">0</span>
+                        <span class="stat-label"><i class="fas fa-fire"></i> Afiliados</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="lastUpdate">--:--</span>
+                        <span class="stat-label"><i class="fas fa-clock"></i> Actualización</span>
+                    </div>
+                </div>
+                <button id="musicToggle" class="music-btn">
+                    <i class="fas fa-volume-up"></i> MÚSICA
+                </button>
+            </div>
+        </div>
+        
+        <!-- Botones de Navegación en Landing -->
+        <nav class="landing-tabs">
+            <div class="container">
+                <button class="landing-tab-btn" data-section="ranking">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RANKING</span>
+                </button>
+                <button class="landing-tab-btn" data-section="galeria">
+                    <i class="fas fa-bolt"></i>
+                    <span>GALERÍA</span>
+                </button>
+                <button class="landing-tab-btn" data-section="podio">
+                    <i class="fas fa-crown"></i>
+                    <span>TOP 3</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- SECCIONES (ocultas por defecto) -->
+    <div class="sections-container" id="sectionsContainer" style="display: none;">
+        <!-- Botón Home -->
+        <button class="home-btn" id="homeBtn">
+            <i class="fas fa-home"></i>
+        </button>
+
+        <!-- Tabs de Navegación -->
+        <nav class="tabs">
+            <div class="container">
+                <button class="tab-btn active" data-tab="ranking">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RANKING</span>
+                </button>
+                <button class="tab-btn" data-tab="galeria">
+                    <i class="fas fa-bolt"></i>
+                    <span>GALERÍA</span>
+                </button>
+                <button class="tab-btn" data-tab="podio">
+                    <i class="fas fa-crown"></i>
+                    <span>TOP 3</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Contenido Principal -->
+        <main class="container">
+            <!-- Tab: Ranking -->
+            <section id="ranking" class="tab-content active">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    RANKING COMPLETO
+                </h2>
+                
+                <div class="ranking-list" id="rankingList">
+                    <!-- Las barras se generarán dinámicamente -->
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando datos del ranking...</p>
+                </div>
+            </section>
+
+            <!-- Tab: Galería de Tarjetas -->
+            <section id="galeria" class="tab-content">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    TARJETAS DE PODER
+                </h2>
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- Las tarjetas se generarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Tab: Podio -->
+            <section id="podio" class="tab-content">
+                <h2 class="section-title">
+                    <i class="fas fa-crown"></i>
+                    TOP 3 MEJORES
+                </h2>
+                <div class="podium-container">
+                    <!-- Segundo lugar -->
+                    <div class="podium-place second">
+                        <div class="podium-rank-badge">2</div>
+                        <div class="podium-avatar" id="podium-2-avatar"></div>
+                        <h3 id="podium-2-name">---</h3>
+                        <div class="podium-stats">
+                            <span class="podium-number" id="podium-2-afiliados">0</span>
+                            <span class="podium-label">Afiliados</span>
+                        </div>
+                    </div>
+
+                    <!-- Primer lugar -->
+                    <div class="podium-place first">
+                        <div class="podium-crown"><i class="fas fa-crown"></i></div>
+                        <div class="podium-rank-badge">1</div>
+                        <div class="podium-avatar" id="podium-1-avatar"></div>
+                        <h3 id="podium-1-name">---</h3>
+                        <div class="podium-stats">
+                            <span class="podium-number" id="podium-1-afiliados">0</span>
+                            <span class="podium-label">Afiliados</span>
+                        </div>
+                    </div>
+
+                    <!-- Tercer lugar -->
+                    <div class="podium-place third">
+                        <div class="podium-rank-badge">3</div>
+                        <div class="podium-avatar" id="podium-3-avatar"></div>
+                        <h3 id="podium-3-name">---</h3>
+                        <div class="podium-stats">
+                            <span class="podium-number" id="podium-3-afiliados">0</span>
+                            <span class="podium-label">Afiliados</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p class="footer-credit">
+                    <i class="fas fa-heart"></i> Desarrollado con amor por <strong>Deison BM</strong>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    
+    <script src="frases-epicas.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
